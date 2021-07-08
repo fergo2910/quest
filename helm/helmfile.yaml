@@ -1,0 +1,23 @@
+# Define deployment environments
+environments:
+  dev:
+  prod:
+
+helmDefaults:
+  createNamespace: false
+  wait: true
+
+# Define virtual-lab deployment
+releases:
+- name: quest-quest
+  namespace: {{ requiredEnv "K8S_NAMESPACE" }}
+  chart: .
+  values:
+    - values.yaml
+    - ./vars/{{ .Environment.Name }}/values.yaml
+
+  set:
+    - name: image.tag
+      value: {{ requiredEnv "IMAGE_TAG" | quote }}
+    - name: ingress.sg_ids
+      value: {{ env "SG_IDS" | default "" }}
