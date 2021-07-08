@@ -6,12 +6,11 @@ WORKDIR /home/quest
 ARG buildtime_secret
 ENV SECRET_WORD=$buildtime_secret
 
-#best practice node installation
-# COPY package.json .
-# RUN npm install
+COPY package.json .
+RUN npm install -g
 
 COPY . .
 
 EXPOSE 3000
 
-CMD ["npm install && npm start"]
+ENTRYPOINT [ "/home/quest/entrypoint.sh" ]

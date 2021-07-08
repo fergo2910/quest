@@ -2,7 +2,7 @@
 environment: prod
 
 urls:
-  - https://quest-quest.private.com
+  - "*"
 
 ingress:
   isAlb: true
@@ -23,8 +23,8 @@ autoscaling:
 
 resources:
   limits:
+    cpu: 1
+    memory: 2Gi
+  requests:
     cpu: 0.5
     memory: 1Gi
-  requests:
-    cpu: 0.25
-    memory: 0.5Gi
