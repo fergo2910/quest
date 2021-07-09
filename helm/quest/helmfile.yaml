@@ -9,7 +9,7 @@ helmDefaults:
 
 # Define virtual-lab deployment
 releases:
-- name: quest-quest
+- name: quest
   namespace: {{ requiredEnv "K8S_NAMESPACE" }}
   chart: .
   values:

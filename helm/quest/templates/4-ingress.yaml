@@ -53,16 +53,13 @@ spec:
         paths:
           - path: /*
             backend:
+              serviceName: ssl-redirect
+              servicePort: use-annotation
+    {{- range $path := $.Values.ingress.paths }}
+          - path: {{ $path }}
+            backend:
               serviceName: {{ $fullName }}
               servicePort: {{ $svcPort }}
-            # backend:
-            #   serviceName: ssl-redirect
-            #   servicePort: use-annotation
-    # {{- range $path := $.Values.ingress.paths }}
-    #       - path: {{ $path }}
-    #         backend:
-    #           serviceName: {{ $fullName }}
-    #           servicePort: {{ $svcPort }}
-    # {{- end }}
+    {{- end }}
     {{- end }}
   {{- end }}

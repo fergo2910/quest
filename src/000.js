@@ -47,4 +47,4 @@ exec('bin/006 ' + JSON.stringify(req.headers), (err, stdout, stderr) => {
 });
 });
 
-app.listen(port, () => console.log(`Rearc quest listening on port ${port}!`))
+app.listen(port, process.env["IP"] || "0.0.0.0", () => console.log(`Rearc quest listening on port ${port}!`))

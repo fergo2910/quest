@@ -4,17 +4,12 @@
 
 containerPort: 3000
 
-# container:
-#   args: ["runserver"]
-#   worker: ["worker"]
-#   celery: ["beat"]
-
 service:
   type: NodePort
   port: 3000
 
 image:
-  repository: 750208817861.dkr.ecr.us-east-1.amazonaws.com/rearc-quest
+  repository: 750208817861.dkr.ecr.us-east-1.amazonaws.com/quest
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""

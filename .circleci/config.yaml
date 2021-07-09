@@ -1,0 +1,60 @@
+orbs:
+  helm: circleci/helm@1.2.0
+  aws-cli: circleci/aws-cli@1.3.2
+  aws-ecr: circleci/aws-ecr@6.15.2
+  aws-eks: circleci/aws-eks@1.0.3
+  kubernetes: circleci/kubernetes@0.11.2
+
+jobs:
+  build_and_push:
+    steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - aws-ecr/build-and-push-image:
+          account-url: AWS_ECR_ACCOUNT_URL
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          region: AWS_DEFAULT_REGION
+          repo: ECR_NAME
+          skip-when-tags-exist: false
+          extra-build-args: '--build-arg buildtime_secret="local-strong-secret"'
+          tag: '${ENVIRONMENT}-${CIRCLE_SHA1:0:7},${CIRCLE_SHA1:0:7}'
+
+  deployment:
+    steps:
+      - run:
+          name: Deployment application with helm
+          command: |
+            set -e
+            NAMESPACE=${EKS_NAMESPACE}
+            TAG=${CIRCLE_SHA1:0:7}
+            # deploying teamup_all container
+            IMAGE_TAG=${TAG} K8S_NAMESPACE=${NAMESPACE} helmfile -e ${ENVIRONMENT} -f helm/quest/helmfile.yaml apply
+
+workflows:
+  prod-workflow:
+    jobs:
+      - build_and_push:
+          context:
+            - prod
+          filters:
+            branches:
+              only:
+                - master
+      - approval_deployment:
+          requires:
+            - build_and_push
+          type: approval
+          filters:
+            branches:
+              only:
+                - master
+      - deployment:
+          requires:
+            - approval_deployment
+          context:
+            - prod
+          filters:
+            branches:
+              only:
+                - master
