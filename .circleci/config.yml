@@ -9,6 +9,8 @@ orbs:
 
 jobs:
   build_and_push:
+    docker:
+      - image: circleci/python:3.6-stretch-node
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
@@ -23,6 +25,8 @@ jobs:
           tag: '${ENVIRONMENT}-${CIRCLE_SHA1:0:7},${CIRCLE_SHA1:0:7}'
 
   deployment:
+    docker:
+      - image: circleci/python:3.6-stretch-node
     steps:
       - run:
           name: Deployment application with helm
