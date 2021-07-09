@@ -51,6 +51,16 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
+Datadog labels
+*/}}
+{{- define "quest.datadogLabels" -}}
+helm.sh/chart: {{ include "quest.chart" . }}
+tags.datadoghq.com/env: {{ .Values.environment }}
+tags.datadoghq.com/service: {{ include "quest.name" . }}
+tags.datadoghq.com/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+
+{{/*
 Create the name of the service account to use
 */}}
 {{- define "quest.serviceAccountName" -}}

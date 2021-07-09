@@ -5,6 +5,7 @@ metadata:
   name: {{ include "quest.fullname" . }}
   labels:
     {{- include "quest.labels" . | nindent 4 }}
+    {{- include "quest.datadogLabels" . | nindent 4 }}
 spec:
 {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
@@ -20,6 +21,7 @@ spec:
     {{- end }}
       labels:
         {{- include "quest.selectorLabels" . | nindent 8 }}
+        {{- include "quest.datadogLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
