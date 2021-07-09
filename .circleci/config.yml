@@ -19,7 +19,7 @@ jobs:
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
           region: AWS_DEFAULT_REGION
-          repo: ECR_NAME
+          repo: ${ECR_NAME}
           skip-when-tags-exist: false
           extra-build-args: '--build-arg buildtime_secret="local-strong-secret"'
           tag: '${ENVIRONMENT}-${CIRCLE_SHA1:0:7},${CIRCLE_SHA1:0:7}'
