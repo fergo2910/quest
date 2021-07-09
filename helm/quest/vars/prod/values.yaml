@@ -9,7 +9,7 @@ ingress:
   enabled: true
   paths:
     - /*
-  cert_arn: "arn:aws:acm:us-east-1:750208817861:certificate/73272351-67a9-40a7-beea-bd9f36eef80a"
+  cert_arn: "arn:aws:acm:us-east-1:750208817861:certificate/439c61c5-7b19-4049-9762-c3bf5bc2c06e"
   sg_ids: ""
 
 replicaCount: 2
